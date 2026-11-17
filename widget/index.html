@@ -1287,6 +1287,49 @@ function motionScene(kind){
  return `<div class="motion-scene" data-motion-scene="${kind}" aria-hidden="true"><svg viewBox="0 0 260 150" fill="none" focusable="false">${scenes[kind]||scenes.company_size}</svg></div>`;
 }
 
+const CARD_CSS = "/* Team card: a persistent object beside the questions. It fills as answers arrive and turns over on the result. */\n.upb.with-card{display:grid;grid-template-columns:304px minmax(0,1fr);gap:28px;align-items:start}\n.with-card .step-nav{display:none}\n.card-stage{position:sticky;top:98px;display:grid;justify-items:center;gap:14px;padding-top:10px;font-family:var(--play-body)}\n.card-note{margin:0;max-width:270px;text-align:center;font-size:13px;line-height:1.45;color:#c697ce}\n.scene-box{--s:.84;width:calc(360px*var(--s));height:calc(236px*var(--s))}\n.scene{perspective:1200px;width:360px;height:236px;transform:scale(var(--s));transform-origin:top left}\n.tilt{width:100%;height:100%;transform-style:preserve-3d;will-change:transform;cursor:grab;touch-action:pan-y}\n.tilt.dragging{cursor:grabbing}\n.flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.77,0,.175,1)}\n.flip.issued{transform:rotateY(180deg)}\n.flip.receive{animation:card-receive .22s var(--v6-out)}\n@keyframes card-receive{0%{scale:1}40%{scale:1.025}100%{scale:1}}\n.face{position:absolute;inset:0;border-radius:20px;padding:18px 20px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;box-shadow:0 24px 48px rgba(0,0,0,.45)}\n.face.card-front{color:#fff;background:radial-gradient(120% 90% at 10% 0%,#55306a 0%,#3b1c47 55%,#2c1436 100%);border:1px solid #5a3a66}\n.face.card-back{color:#2b1832;transform:rotateY(180deg);background:radial-gradient(110% 100% at 100% 100%,#ffb04d 0%,#ff8500 58%,#f07a00 100%)}\n.card-top{display:flex;justify-content:space-between;align-items:flex-start}\n.card-brand{font-family:var(--play-head);font-weight:700;color:#ff8500;font-size:20px;line-height:1}\n.card-brand small{display:block;font-size:10px;font-weight:600;margin-top:2px}\n.card-back .card-brand{color:#2b1832}\n.card-chip{width:38px;height:28px;border-radius:7px;background:#ffce99;position:relative}\n.card-chip:after{content:\"\";position:absolute;inset:6px 10px;border-left:1px solid #c98a4a;border-right:1px solid #c98a4a}\n.card-back .card-chip{background:#2b1832}\n.card-back .card-chip:after{border-color:#6a4d70}\n.holder{font-family:var(--play-head);font-size:13px;letter-spacing:.06em;color:#ffce99;margin:10px 0 8px;min-height:20px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 10px}\n.slot{appearance:none;border:0;background:none;padding:0;margin:0;text-align:left;cursor:pointer;min-width:0;border-radius:6px;font:inherit;color:inherit}\n.slot:disabled{cursor:default}\n.slot span{display:block;font-size:11px;color:#c697ce}\n.slot b{display:block;font-size:14px;font-weight:600;color:#7d5c88;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s ease}\n.slot.has-value b{color:#fff}\n.slot.now span{color:#ff8500}\n.slot:focus-visible{outline:2px solid #ff8500;outline-offset:3px}\n.locks{position:absolute;left:20px;right:20px;bottom:14px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#c697ce}\n.lock-dots{display:flex;gap:6px}\n.lock-dots i{width:16px;height:16px;border-radius:50%;border:1px solid #5a3a66;display:block}\n.scan{position:absolute;left:0;right:0;bottom:0;height:3px;background:#ff8500;transform-origin:left;transform:scaleX(0)}\n.scan.run{animation:card-scan 1.6s linear infinite}\n@keyframes card-scan{0%{transform:scaleX(0);transform-origin:left}60%{transform:scaleX(1);transform-origin:left}61%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}\n.back-label{margin:16px 0 0;font-size:12px;font-weight:600;color:#5b2b00}\n.issued-for{margin:0 0 12px;font-family:var(--play-head);font-weight:700;font-size:22px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n.picks{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px}\n.pick{display:inline-flex;align-items:center;gap:6px;background:#2b1832;color:#ffce99;font-family:var(--play-head);font-weight:700;font-size:15px;padding:8px 14px 8px 10px;border-radius:999px;white-space:nowrap}\n.pick .icon{width:16px;height:16px;stroke-width:2.6}\n.issued .pick{animation:card-rise .32s var(--v6-out) .42s backwards}\n.issued .pick+.pick{animation-delay:.5s}\n@keyframes card-rise{from{opacity:0;transform:translateY(8px)}}\n.back-foot{position:absolute;left:20px;bottom:13px;margin:0;font-size:11px;font-weight:600;color:#5b2b00}\n.rings{position:absolute;right:-46px;bottom:-58px;width:170px;height:170px;border-radius:50%;border:16px solid rgba(255,255,255,.22)}\n.rings:after{content:\"\";position:absolute;inset:14px;border-radius:50%;border:10px solid rgba(43,24,50,.10)}\n.flyer{position:fixed;left:0;top:0;z-index:10;pointer-events:none;background:#ffce99;color:#2b1832;font:600 14px/1.2 var(--play-body);padding:6px 12px;border-radius:999px;white-space:nowrap}\n\n/* Answer buttons: an icon to recognise, a line to confirm, a tick once chosen. */\n.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}\n.o2{appearance:none;position:relative;display:flex;align-items:center;gap:12px;min-height:68px;margin:0;padding:12px 44px 12px 14px;border-radius:18px;border:1.5px solid var(--edge);background:var(--tint);color:var(--upb-ink);font:inherit;text-align:left;cursor:pointer;min-width:0;transition:transform .16s var(--v6-out),box-shadow .16s var(--v6-out),background-color .16s ease,border-color .16s ease}\n.o2:nth-child(4n+1){--tint:#fff3e6;--edge:#ffd0a3;--ico:#c25e00}\n.o2:nth-child(4n+2){--tint:#f4eaf9;--edge:#e6caee;--ico:#8f499c}\n.o2:nth-child(4n+3){--tint:#fff8e7;--edge:#ffe8b0;--ico:#a87400}\n.o2:nth-child(4n+4){--tint:#fceef2;--edge:#f5d3e0;--ico:#b0477a}\n.motion-enter .o2{animation:o2-in .3s var(--v6-out) backwards;animation-delay:calc(var(--choice)*45ms + 60ms)}\n@keyframes o2-in{from{opacity:0;transform:translateY(12px) scale(.96)}}\n.o2:active{transform:scale(.97)}\n.o2 input{position:absolute;opacity:0;width:1px;height:1px;margin:0}\n.o2:focus-visible,.o2:has(input:focus-visible){outline:2px solid #ff8500;outline-offset:2px}\n.o2-ico{flex:none;width:44px;height:44px;border-radius:13px;background:#fff;color:var(--ico);display:grid;place-items:center;transition:background-color .16s ease,color .16s ease}\n.o2-ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}\n.o2-ico .f{fill:currentColor;stroke:none}\n.o2-ico .g{fill:currentColor;stroke:none;opacity:.22}\n.o2-text{min-width:0;flex:1;display:grid;gap:1px}\n.o2-text b{font-weight:600;font-size:16px;line-height:1.25;overflow-wrap:anywhere}\n.o2-text small{font-size:13px;line-height:1.3;color:var(--upb-muted)}\n.o2-tick{position:absolute;right:12px;top:50%;width:24px;height:24px;margin-top:-12px;border-radius:50%;background:var(--upb-ink);color:#fff;display:grid;place-items:center;opacity:0;transform:scale(.6);transition:opacity .14s ease,transform .18s var(--v6-out)}\n.o2-tick .icon{width:14px;height:14px;stroke-width:2.6}\n.o2.is-selected{background:#ffce99;border-color:var(--upb-ink)}\n.o2.is-selected .o2-ico{background:var(--upb-ink);color:#ffce99}\n.o2.is-selected .o2-tick{opacity:1;transform:scale(1)}\n@media (hover:hover) and (pointer:fine){\n .o2:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(43,24,50,.10);border-color:var(--ico)}\n .o2:hover:active{transform:scale(.97)}\n .o2.is-selected:hover{border-color:var(--upb-ink)}\n}\n\n/* Result: the products left out, one tap each. */\n.others{margin:26px 0 6px}\n.others h3{margin:0 0 4px;font:600 17px/1.3 var(--play-head)}\n.others-sub{margin:0 0 12px;font-size:14px;color:var(--upb-muted)}\n.fit-tabs{display:flex;flex-wrap:wrap;gap:8px}\n.fit-tab{appearance:none;min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid var(--upb-line);background:#fff;color:var(--upb-ink);font:600 14px/1 var(--play-body);cursor:pointer;transition:transform .14s var(--v6-out),background-color .16s ease,border-color .16s ease}\n.fit-tab:active{transform:scale(.97)}\n.fit-tab[aria-pressed=\"true\"]{background:var(--upb-pale);border-color:var(--upb-purple);color:var(--upb-purple)}\n.fit-text{margin:12px 0 0;padding:14px 16px;border-radius:14px;background:var(--upb-pale);font-size:15px;line-height:1.5;min-height:52px}\n\n@media (max-width:900px){\n .upb.with-card{grid-template-columns:minmax(0,1fr);gap:12px}\n .card-stage{top:70px;z-index:4;padding:8px 0 10px;background:#191919;gap:0}\n .card-note{display:none}\n .scene-box{--s:.74}\n .choices{grid-template-columns:minmax(0,1fr);gap:10px}\n .o2{min-height:60px}\n}\n.o2 .numeric-range,.o2 .numeric-range span{font:inherit;letter-spacing:0}\n.o2 .numeric-range{display:inline-flex;align-items:baseline;gap:4px}\n";
+// Team card. Short labels for the six fields, and the icons on the answer buttons.
+const CARD_SHORT = {
+ el: { office:'Γραφείο', hybrid:'Υβριδικά', remote:'Εξ αποστάσεως', retention:'Διατήρηση', wellbeing:'Ευεξία', tax:'Οργάνωση', expenses:'Έξοδα', daily:'Καθημερινότητα', under50:'< 50 €', '50to99':'50–99 €', '100to199':'100–199 €', '200plus':'200+ €', unsure:'Ανοιχτό' },
+ en: { office:'Office', hybrid:'Hybrid', remote:'Remote', retention:'Retention', wellbeing:'Wellbeing', tax:'Structure', expenses:'Expenses', daily:'Everyday', under50:'< €50', '50to99':'€50–99', '100to199':'€100–199', '200plus':'€200+', unsure:'Open' }
+};
+const CARD_COPY = {
+ el: { stage:'Η κάρτα της ομάδας σας', team:'Η ομάδα σας', locked:'5 λύσεις κλειδωμένες', unlocked:'Ξεκλειδώθηκε', note:'Γεμίζει με κάθε απάντηση. Πάτα ένα πεδίο για να το αλλάξεις.', noteDone:'Το πρώτο σας πλάνο είναι στην πίσω όψη.', issuedFor:'Εκδόθηκε για', plan:'Το πρώτο σας πλάνο', othersSub:'Πάτα μία για να δεις πότε θα έμπαινε στο πλάνο.' },
+ en: { stage:'Your team card', team:'Your team', locked:'5 solutions locked', unlocked:'Unlocked', note:'It fills in with every answer. Tap a field to change it.', noteDone:'Your first plan is on the back.', issuedFor:'Issued for', plan:'Your first plan', othersSub:'Tap one to see when it would join the plan.' }
+};
+const CHOICE_ICONS = {
+ technology:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+ services:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 13h18"/>',
+ retail:'<path d="M5 8h14l-1 12H6L5 8zM9 8V6a3 3 0 0 1 6 0v2"/>',
+ manufacturing:'<path d="M3 20V10l6 4v-4l6 4V5h4v15H3z"/>',
+ hospitality:'<path d="M5 8h11v6a5 5 0 0 1-10 0V8zM16 10h2a2.5 2.5 0 0 1 0 5h-2M6 20h10"/>',
+ other:'<circle class="f" cx="6" cy="12" r="1.6"/><circle class="f" cx="12" cy="12" r="1.6"/><circle class="f" cx="18" cy="12" r="1.6"/>',
+ office:'<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M11 21v-4h2v4"/>',
+ hybrid:'<path d="M3 20v-9l5-4 5 4v9M13 20V4h8v16M16.5 8h1M16.5 12h1M16.5 16h1"/>',
+ remote:'<path d="M4 11l8-7 8 7M6 10v10h12V10M10 20v-5h4v5"/>',
+ retention:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
+ wellbeing:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+ tax:'<path d="M5 7h14M5 12h14M5 17h9"/>',
+ expenses:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3zM9 8h6M9 12h6"/>',
+ daily:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
+ meal:'<path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5M9 3v5M16 3c-2 2-2 7 0 9v9"/>',
+ flex:'<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 14h4"/>',
+ rewards:'<rect x="4" y="10" width="16" height="10" rx="1"/><path d="M3 7h18v3H3zM12 7v13M12 7c-2-4-6-3-4 0M12 7c2-4 6-3 4 0"/>',
+ none:'<path d="M12 5v14M5 12h14"/>',
+ unsure:'<path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.2-1.5 2.4"/><circle class="f" cx="12" cy="18" r="1.2"/>'
+};
+// Team size reads as a headcount and budget as a level, so both are drawn from the option's position.
+function choiceIcon(key, value, index) {
+ let body = CHOICE_ICONS[value] || '';
+ if (key === 'company_size') {
+  const filled = [1, 2, 4, 6, 9][index];
+  body = Array.from({ length: 9 }, (_, n) => `<circle class="${n < filled ? 'f' : 'g'}" cx="${6 + (n % 3) * 6}" cy="${18 - Math.floor(n / 3) * 6}" r="2.2"/>`).join('');
+ } else if (key === 'budget' && value !== 'unsure') {
+  body = Array.from({ length: 4 }, (_, k) => `<rect class="${k <= index ? 'f' : 'g'}" x="${4 + k * 4.5}" y="${15 - k * 3.5}" width="3" height="${5 + k * 3.5}" rx="1"/>`).join('');
+ }
+ return `<span class="o2-ico" aria-hidden="true"><svg viewBox="0 0 24 24">${body}</svg></span>`;
+}
+const CARD_MARKUP = `<aside class="card-stage" data-card-stage><div class="scene-box"><div class="scene"><div class="tilt" data-tilt><div class="flip" data-flip><div class="face card-front"><div class="card-top"><div class="card-brand">Up<small>Hellas</small></div><div class="card-chip" aria-hidden="true"></div></div><div class="holder" data-holder></div><div class="slots" data-slots></div><div class="locks"><span data-lock></span><span class="lock-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div><div class="scan" data-scan></div></div><div class="face card-back" data-back aria-hidden="true"></div></div></div></div></div><p class="card-note" data-card-note></p></aside>`;
 class UpBenefitsBuilder extends HTMLElement {
  static get observedAttributes(){return ['lang'];}
  constructor(){
@@ -1325,7 +1368,7 @@ class UpBenefitsBuilder extends HTMLElement {
   this._popstate=e=>this.restoreNavigation(e.state?.upbNavigation);window.addEventListener('popstate',this._popstate);
   this.render();
  }
- disconnectedCallback(){this._motionObserver?.disconnect();this._motionMedia?.removeEventListener?.('change',this._motionChange);document.removeEventListener('visibilitychange',this._visibilityChange);window.removeEventListener('pagehide',this._pagehide);window.removeEventListener('popstate',this._popstate);clearTimeout(this._advanceTimer);this._activeRequest?.abort();}
+ disconnectedCallback(){this._motionObserver?.disconnect();this._motionMedia?.removeEventListener?.('change',this._motionChange);document.removeEventListener('visibilitychange',this._visibilityChange);window.removeEventListener('pagehide',this._pagehide);window.removeEventListener('popstate',this._popstate);window.removeEventListener('pointermove',this._cardMove);window.removeEventListener('pointerup',this._cardUp);clearTimeout(this._advanceTimer);this._activeRequest?.abort();}
  attributeChangedCallback(name,old,value){if(name==='lang'&&this._ready&&old!==value){this.language=locale(value);this.render();this.applyMotionPreference();}}
  get motionEnabled(){return this._motionPreference==='on'||this._motionPreference!=='off'&&!this._motionMedia.matches;}
  motionButton(){
@@ -1460,6 +1503,7 @@ class UpBenefitsBuilder extends HTMLElement {
  onInput(e){
   const el=e.target;
   if(el.dataset.lead){this.state.lead[el.dataset.lead]=el.value;delete this.state.fieldErrors[el.dataset.lead];}
+  if(el.dataset.lead==='company'){this._cardName=el.value.trim();this.shadowRoot.querySelector('[data-holder]').textContent=this._cardName||CARD_COPY[this.language].team;}
  }
  onChange(e){
   const el=e.target;
@@ -1485,6 +1529,9 @@ class UpBenefitsBuilder extends HTMLElement {
   const b=e.target.closest('[data-action]');if(!b)return;
   const act=b.dataset.action;
   if(act==='toggle-motion'){this.toggleMotion();return;}
+  if(act==='fit'){this.shadowRoot.querySelectorAll('.fit-tab').forEach(tab=>tab.setAttribute('aria-pressed',String(tab===b)));this.shadowRoot.querySelector('[data-fit]').textContent=b.dataset.reason;return;}
+  if(this._cardMoved&&b.classList.contains('slot'))return;
+  if(act==='choose'&&e.detail!==0){const r=b.getBoundingClientRect();this._flyFrom={left:r.left,top:r.top,height:r.height};}
   if(this._choosing)return;
   if(act==='choose'){this.choose(b.dataset.key,b.dataset.value);return;}
   if(act==='start')this.start();
@@ -1604,6 +1651,99 @@ class UpBenefitsBuilder extends HTMLElement {
    this.state.toast=this.t.shareSuccess;this.event('share_card',{product_ids:ids.join('|')});this.render();
   }catch{this.state.toast=this.t.shareError;this.render();}
  }
+ // The card follows the pointer 1:1 while held, springs home on release and leans toward the cursor at rest.
+ setupCard(){
+  const root=this.shadowRoot,stage=root.querySelector('[data-card-stage]'),tilt=root.querySelector('[data-tilt]');
+  const pos={x:0,y:0,rx:0,ry:0},vel={x:0,y:0,rx:0,ry:0},target={x:0,y:0,rx:0,ry:0};
+  let dragging=false,start=null,last=null,frame=0;
+  const paint=()=>{tilt.style.transform=`translate3d(${pos.x}px,${pos.y}px,0) rotateX(${pos.rx}deg) rotateY(${pos.ry}deg)`;};
+  const tick=()=>{
+   let busy=false;
+   for(const k of dragging?['rx','ry']:['x','y','rx','ry']){
+    vel[k]+=(target[k]-pos[k])*.09-vel[k]*.26;pos[k]+=vel[k];
+    if(Math.abs(vel[k])>.01||Math.abs(target[k]-pos[k])>.01)busy=true;
+   }
+   paint();frame=busy||dragging?requestAnimationFrame(tick):0;
+  };
+  const wake=()=>{if(!frame)frame=requestAnimationFrame(tick);};
+  const fine=window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  stage.addEventListener('pointermove',e=>{
+   if(!fine||dragging||!this.motionEnabled)return;
+   const r=tilt.getBoundingClientRect();
+   target.ry=((e.clientX-r.left)/r.width-.5)*14;target.rx=-((e.clientY-r.top)/r.height-.5)*10;wake();
+  });
+  stage.addEventListener('pointerleave',()=>{target.rx=0;target.ry=0;wake();});
+  tilt.addEventListener('pointerdown',e=>{
+   if(e.pointerType==='touch'||e.button!==0||!this.motionEnabled)return;
+   start={x:e.clientX-pos.x,y:e.clientY-pos.y,px:e.clientX,py:e.clientY};last={x:e.clientX,y:e.clientY,t:performance.now()};this._cardMoved=false;
+  });
+  this._cardMove=e=>{
+   if(!start)return;
+   if(!dragging){
+    if(Math.abs(e.clientX-start.px)+Math.abs(e.clientY-start.py)<6)return;
+    dragging=true;this._cardMoved=true;tilt.classList.add('dragging');
+    try{tilt.setPointerCapture(e.pointerId);}catch{}
+   }
+   // The card has nowhere to go, so it resists: a third of the pointer's travel.
+   pos.x=(e.clientX-start.x)*.35;pos.y=(e.clientY-start.y)*.35;
+   const now=performance.now(),dt=Math.max(now-last.t,1);
+   vel.x=(e.clientX-last.x)/dt*16*.35;vel.y=(e.clientY-last.y)/dt*16*.35;
+   target.ry=Math.max(-18,Math.min(18,vel.x*1.6));target.rx=Math.max(-14,Math.min(14,-vel.y*1.6));
+   last={x:e.clientX,y:e.clientY,t:now};paint();wake();
+  };
+  this._cardUp=()=>{
+   if(!start)return;start=null;
+   if(dragging){dragging=false;tilt.classList.remove('dragging');target.x=target.y=target.rx=target.ry=0;wake();setTimeout(()=>{this._cardMoved=false;},0);}
+  };
+  window.addEventListener('pointermove',this._cardMove);window.addEventListener('pointerup',this._cardUp);
+ }
+ cardTexts(){
+  return this.t.steps.map(step=>{
+   const a=this.state.answers[step.key];
+   if(!a||Array.isArray(a)&&!a.length)return '';
+   const label=value=>CARD_SHORT[this.language][value]||step.options.find(o=>o[0]===value)?.[1]||'';
+   return Array.isArray(a)?(a.length>1?`${label(a[0])} +${a.length-1}`:label(a[0])):label(a);
+  });
+ }
+ renderCard(){
+  const root=this.shadowRoot,t=this.t,st=this.state,c=CARD_COPY[this.language];
+  const atResult=st.stage==='result'&&!!st.result,texts=this.cardTexts(),previous=this._cardTexts||[];
+  // The name is embossed once the form is in reach, never from a prefilled demo value on step one.
+  if(this.selectedCount===6&&st.lead.company.trim())this._cardName=st.lead.company.trim();
+  root.querySelector('[data-card-stage]').setAttribute('aria-label',c.stage);
+  root.querySelector('[data-holder]').textContent=this._cardName||c.team;
+  root.querySelector('[data-slots]').innerHTML=t.steps.map((step,i)=>`<button type="button" class="slot ${texts[i]?'has-value':''} ${!atResult&&st.step===i?'now':''}" data-action="edit" data-step="${i}" ${st.busy||!texts[i]?'disabled':''} aria-label="${escapeHTML(`${t.shortSteps[i]}: ${texts[i]||'—'}`)}"><span>${t.shortSteps[i]}</span><b ${this._flying===i?'style="opacity:0"':''}>${escapeHTML(texts[i]||'—')}</b></button>`).join('');
+  root.querySelector('[data-lock]').textContent=atResult?c.unlocked:c.locked;
+  root.querySelector('[data-card-note]').textContent=atResult?c.noteDone:c.note;
+  root.querySelector('[data-scan]').classList.toggle('run',!!st.busy);
+  const back=root.querySelector('[data-back]');
+  if(atResult){
+   const plan=recommend(st.answers,this.language);
+   back.innerHTML=`<div class="card-top"><div class="card-brand">Up<small>Hellas</small></div><div class="card-chip" aria-hidden="true"></div></div><p class="back-label">${c.issuedFor}</p><p class="issued-for">${escapeHTML(this._cardName||c.team)}</p><div class="picks">${plan.primary.map(p=>`<span class="pick">${icon('check')}${product(p.id).name}</span>`).join('')}</div><p class="back-foot">${c.plan}</p><span class="rings" aria-hidden="true"></span>`;
+  }
+  back.setAttribute('aria-hidden',String(!atResult));
+  root.querySelector('[data-flip]').classList.toggle('issued',atResult);
+  // The answer travels from where it was pressed to its field on the card. Keyboard answers land at once.
+  const changed=texts.findIndex((text,i)=>text&&text!==previous[i]);
+  if(changed>=0&&this._flyFrom&&this.motionEnabled)this.flyToCard(this._flyFrom,texts[changed],changed);
+  this._flyFrom=null;this._cardTexts=texts;
+ }
+ flyToCard(from,text,index){
+  const root=this.shadowRoot,value=root.querySelector(`.slot[data-step="${index}"] b`);if(!value)return;
+  const to=value.getBoundingClientRect(),flyer=document.createElement('div');
+  flyer.className='flyer';flyer.textContent=text;root.querySelector('.upb').appendChild(flyer);
+  const h=flyer.offsetHeight,x0=from.left+70,y0=from.top+(from.height-h)/2,x1=to.left-12,y1=to.top+(to.height-h)/2;
+  value.style.opacity='0';this._flying=index;
+  flyer.animate([
+   {transform:`translate(${x0}px,${y0}px) scale(1)`,opacity:1},
+   {transform:`translate(${x1}px,${y1}px) scale(.8)`,opacity:1,offset:.85},
+   {transform:`translate(${x1}px,${y1}px) scale(.8)`,opacity:0}
+  ],{duration:460,easing:'cubic-bezier(.77,0,.175,1)'}).onfinish=()=>{
+   flyer.remove();this._flying=null;
+   const now=root.querySelector(`.slot[data-step="${index}"] b`);if(now)now.style.opacity='';
+   const flip=root.querySelector('[data-flip]');flip.classList.remove('receive');void flip.offsetWidth;flip.classList.add('receive');
+  };
+ }
  renderNavigation(){
   const t=this.t,st=this.state,atResult=st.stage==='result';
   return `<div class="flow-nav"><div class="flow-toolbar"><button type="button" class="back" data-action="back" ${st.busy?'disabled':''}>${icon('back')}${atResult?t.changeAnswers:t.back}</button><span class="flow-caption">${atResult?t.resultEyebrow:`${String(st.step+1).padStart(2,'0')} / 06`}</span><div class="toolbar-end">${this.motionButton()}<button type="button" class="home-link" data-action="home" ${st.busy?'disabled':''}>${t.homeLabel} ↗</button></div></div><nav class="step-nav" aria-label="${t.stepNav}">${t.steps.map((step,i)=>{
@@ -1614,18 +1754,14 @@ class UpBenefitsBuilder extends HTMLElement {
  }
  renderQuestion(){
   const t=this.t,s=t.steps[this.state.step],v=this.state.answers[s.key],multi=s.key==='current_benefits';
-  const displayType=s.key==='company_size'?'team':s.key==='work_model'?'places':s.key==='goal'?'priorities':s.key==='budget'?'amounts':'standard';
   const options=s.options.map((o,i)=>{
    const selected=multi?(v||[]).includes(o[0]):v===o[0];
-   const mark=multi?'<span class="option-mark" aria-hidden="true"></span>':'';
-   const art=s.key==='company_size'?teamArt(i):s.key==='work_model'?placeArt(o[0]):s.key==='budget'?'':playIcon(o[0]);
    const subtitle=s.key==='company_size'?t.peopleUnit:s.key==='budget'||s.key==='goal'?'':o[2];
-   const content=`${mark}${art}<span class="option-copy"><span class="option-title">${numericChoice(s.key,o[0],this.language,o[1])}</span>${subtitle?`<span class="option-sub">${subtitle}</span>`:''}</span>${!multi?`<span class="choice-arrow" aria-hidden="true">${selected?icon('check'):icon('arrow')}</span>`:''}`;
-   const tone=['peach','lilac','cream','rose','lilac','cream'][i];
-   return multi?`<label class="option multi ${selected?'is-selected':''}" data-tone="${tone}" style="--choice:${i}"><input type="checkbox" name="${s.key}" data-answer="${s.key}" value="${o[0]}" ${selected?'checked':''} aria-label="${escapeHTML(o[1])}${o[0]==='none'?' — '+t.chooseContinue:''}">${content}</label>`:`<button type="button" class="option choice ${selected?'is-selected':''}" data-tone="${tone}" style="--choice:${i}" data-action="choose" data-key="${s.key}" data-value="${o[0]}" aria-label="${escapeHTML(o[1])}${s.key==='budget'&&!this.state.result?'':' — '+t.chooseContinue}" aria-pressed="${selected}" ${this._choosing?'disabled':''}>${content}</button>`;
+   const content=`${choiceIcon(s.key,o[0],i)}<span class="o2-text"><b>${numericChoice(s.key,o[0],this.language,o[1])}</b>${subtitle?`<small>${subtitle}</small>`:''}</span><span class="o2-tick" aria-hidden="true">${icon('check')}</span>`;
+   return multi?`<label class="o2 ${selected?'is-selected':''}" style="--choice:${i}"><input type="checkbox" name="${s.key}" data-answer="${s.key}" value="${o[0]}" ${selected?'checked':''} aria-label="${escapeHTML(o[1])}${o[0]==='none'?' — '+t.chooseContinue:''}">${content}</label>`:`<button type="button" class="o2 ${selected?'is-selected':''}" style="--choice:${i}" data-action="choose" data-key="${s.key}" data-value="${o[0]}" aria-label="${escapeHTML(o[1])}${s.key==='budget'&&!this.state.result?'':' — '+t.chooseContinue}" aria-pressed="${selected}" ${this._choosing?'disabled':''}>${content}</button>`;
   }).join('');
   const final=s.key==='budget';
-  return `<div class="quiz-layout"><section class="question ${final?'final-question':''}" data-question="${s.key}"><div class="question-heading"><div class="heading-copy"><p class="play-kicker">${t.playChapters[this.state.step]}</p><h2 tabindex="-1" id="q-title" data-title>${s.title}</h2><p class="sub" id="q-sub">${s.sub||t.singleHint}</p></div>${motionScene(s.key)}</div><fieldset aria-labelledby="q-title" aria-describedby="q-sub${this.state.error?' q-error':''}"><div class="options ${displayType}">${options}</div></fieldset>${this.state.error?`<p id="q-error" class="error" role="alert">${t[this.state.error]}</p>`:''}${final?(this.state.result?`<div class="unlocked-note"><p>${t.editUnlocked}</p><button type="button" class="button" data-action="return-result">${t.returnResult}${icon('arrow')}</button></div>`:this.renderInlineForm()):`<div class="question-actions">${multi?`<span class="tap-note">${t.multiHint}</span><button class="button" data-action="next">${this._editReturn?t.saveEdit:t.next}${icon('arrow')}</button>`:`<span class="tap-note">${this._editReturn?t.editHint:t.singleHint}</span>`}${this.state.result&&!multi?`<button type="button" class="text-button" data-action="return-result">${t.returnResult} →</button>`:''}</div>`}</section></div>`;
+  return `<div class="quiz-layout"><section class="question ${final?'final-question':''}" data-question="${s.key}"><div class="question-heading"><div class="heading-copy"><p class="play-kicker">${t.playChapters[this.state.step]}</p><h2 tabindex="-1" id="q-title" data-title>${s.title}</h2><p class="sub" id="q-sub">${s.sub||t.singleHint}</p></div>${motionScene(s.key)}</div><fieldset aria-labelledby="q-title" aria-describedby="q-sub${this.state.error?' q-error':''}"><div class="choices">${options}</div></fieldset>${this.state.error?`<p id="q-error" class="error" role="alert">${t[this.state.error]}</p>`:''}${final?(this.state.result?`<div class="unlocked-note"><p>${t.editUnlocked}</p><button type="button" class="button" data-action="return-result">${t.returnResult}${icon('arrow')}</button></div>`:this.renderInlineForm()):`<div class="question-actions">${multi?`<span class="tap-note">${t.multiHint}</span><button class="button" data-action="next">${this._editReturn?t.saveEdit:t.next}${icon('arrow')}</button>`:`<span class="tap-note">${this._editReturn?t.editHint:t.singleHint}</span>`}${this.state.result&&!multi?`<button type="button" class="text-button" data-action="return-result">${t.returnResult} →</button>`:''}</div>`}</section></div>`;
  }
 
  field(key,type='text',wide=false){const t=this.t,err=this.state.fieldErrors[key];return `<div class="${wide?'wide':''}"><label class="field-label" for="lead-${key}">${t[key]} ${key==='phone'?`<em>(${t.optional})</em>`:'<span aria-hidden="true">*</span>'}</label><input class="form-input" id="lead-${key}" type="${type}" name="${key}" data-lead="${key}" value="${escapeHTML(this.state.lead[key])}" autocomplete="${({name:'name',email:'email',company:'organization',phone:'tel'})[key]}" maxlength="${key==='email'?254:key==='company'?120:key==='phone'?25:80}" ${key!=='phone'?'required':''} ${key==='phone'?'placeholder="+30 000 000 0000"':key==='email'?'placeholder="alex@asteri.example"':''} ${err?`aria-invalid="true" aria-describedby="error-${key}"`:''}>${err?`<p class="error" id="error-${key}" role="alert">${escapeHTML(err)}</p>`:''}</div>`;}
@@ -1636,7 +1772,7 @@ class UpBenefitsBuilder extends HTMLElement {
   const summary=!changed&&this.language===s.recommendations.language?s.summary:fallbackNarrative(a,r,this.language);
   const summaryAI=!changed&&s.summary_mode==='llm_validated'&&this.language===s.recommendations.language;
   const cmp=this.state.comparison;
-  return `<section class="results"><div class="result-top"><div><p class="eyebrow">${t.resultEyebrow}</p><h2 tabindex="-1" data-title>${t.resultTitles[a.goal]}</h2></div>${motionScene('result')}</div><p class="summary">${escapeHTML(summary)}</p><div class="result-cards ${r.primary.length===1?'single':''}">${r.primary.map((p,i)=>{const c=product(p.id);return `<article class="product-card" style="--choice:${i}"><header class="product-head"><p class="eyebrow">${i===0?t.coreLabel:t.secondLabel}</p><span class="product-order">0${i+1}</span><h3>${c.name}</h3><p class="description">${c.description[this.language]}</p>${p.action!=='explore'?`<span class="product-action">${t[p.action]}</span>`:''}</header><div class="product-body"><p>${p.reason}</p></div></article>`;}).join('')}</div><div class="result-primary"><button class="button orange" data-action="share">${t.share}${icon('down')}</button><p>${t.shareCompact}</p></div>${this.state.toast?`<p class="result-toast" role="status">${escapeHTML(this.state.toast)}</p>`:''}<p class="result-status">${changed?t.editedResult:s.persisted?t.resultSaved:t.resultPreview} ${t.resultCaution}</p><details class="result-details" data-result-details ${this.state.detailsOpen?'open':''}><summary>${t.detailsLabel}<span aria-hidden="true">+</span></summary><div class="details-body"><section class="result-explanation"><h3>${t.confirm}</h3>${r.primary.map(p=>{const c=product(p.id);return `<div class="detail-product"><strong>${c.name}</strong><p>${c.caveat[this.language]}</p><a class="product-link" href="${c.url}" target="_blank" rel="noopener noreferrer">${t.productLink} ↗<span class="sr"> · ${c.name} (${this.language==='el'?'ανοίγει σε νέα καρτέλα':'opens in a new tab'})</span></a></div>`;}).join('')}</section><section class="not-all"><h3>${t.notAll}</h3>${r.alternatives.map(p=>`<div class="alternative"><strong>${product(p.id).name}</strong><p>${p.reason}</p></div>`).join('')}</section><section class="whatif"><h3>${t.whatifTitle}</h3><p class="section-sub">${t.whatifBody}</p><div class="whatif-controls"><label for="compare-budget">${t.budgetLabel}</label><select id="compare-budget" data-compare-budget>${t.budgetOptions.map(o=>`<option value="${o[0]}" ${(cmp?.budget||a.budget)===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select></div>${cmp?`<div class="compare-result" data-comparison tabindex="-1" role="status">${!cmp.added.length&&!cmp.removed.length?t.unchanged:`${cmp.added.length?`<div><strong>${t.added}:</strong> ${cmp.added.map(id=>product(id).name).join(', ')}</div>`:''}${cmp.removed.length?`<div><strong>${t.removed}:</strong> ${cmp.removed.map(id=>product(id).name).join(', ')}</div>`:''}`}<small>${t.comparisonNotice}</small></div>`:''}<p class="detail-caution">${t.budgetDisclaimer}</p></section><div class="method-note">${summaryAI?t.aiSummary:t.fallback}</div><div class="result-actions"><button class="text-button" data-action="restart">${t.restart}</button><button class="text-button" data-action="print">${t.print} ↗</button></div></div></details></section>`;
+  return `<section class="results"><div class="result-top"><div><p class="eyebrow">${t.resultEyebrow}</p><h2 tabindex="-1" data-title>${t.resultTitles[a.goal]}</h2></div>${motionScene('result')}</div><p class="summary">${escapeHTML(summary)}</p><div class="result-cards ${r.primary.length===1?'single':''}">${r.primary.map((p,i)=>{const c=product(p.id);return `<article class="product-card" style="--choice:${i}"><header class="product-head"><p class="eyebrow">${i===0?t.coreLabel:t.secondLabel}</p><span class="product-order">0${i+1}</span><h3>${c.name}</h3><p class="description">${c.description[this.language]}</p>${p.action!=='explore'?`<span class="product-action">${t[p.action]}</span>`:''}</header><div class="product-body"><p>${p.reason}</p></div></article>`;}).join('')}</div><div class="result-primary"><button class="button orange" data-action="share">${t.share}${icon('down')}</button><p>${t.shareCompact}</p></div>${this.state.toast?`<p class="result-toast" role="status">${escapeHTML(this.state.toast)}</p>`:''}<p class="result-status">${changed?t.editedResult:s.persisted?t.resultSaved:t.resultPreview} ${t.resultCaution}</p><section class="others"><h3>${t.notAll}</h3><p class="others-sub">${CARD_COPY[this.language].othersSub}</p><div class="fit-tabs" role="group" aria-label="${t.notAll}">${r.alternatives.map((p,i)=>`<button type="button" class="fit-tab" data-action="fit" data-reason="${escapeHTML(p.reason)}" aria-pressed="${i===0}">${product(p.id).name}</button>`).join('')}</div><p class="fit-text" data-fit aria-live="polite">${r.alternatives[0].reason}</p></section><details class="result-details" data-result-details ${this.state.detailsOpen?'open':''}><summary>${t.detailsLabel}<span aria-hidden="true">+</span></summary><div class="details-body"><section class="result-explanation"><h3>${t.confirm}</h3>${r.primary.map(p=>{const c=product(p.id);return `<div class="detail-product"><strong>${c.name}</strong><p>${c.caveat[this.language]}</p><a class="product-link" href="${c.url}" target="_blank" rel="noopener noreferrer">${t.productLink} ↗<span class="sr"> · ${c.name} (${this.language==='el'?'ανοίγει σε νέα καρτέλα':'opens in a new tab'})</span></a></div>`;}).join('')}</section><section class="whatif"><h3>${t.whatifTitle}</h3><p class="section-sub">${t.whatifBody}</p><div class="whatif-controls"><label for="compare-budget">${t.budgetLabel}</label><select id="compare-budget" data-compare-budget>${t.budgetOptions.map(o=>`<option value="${o[0]}" ${(cmp?.budget||a.budget)===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select></div>${cmp?`<div class="compare-result" data-comparison tabindex="-1" role="status">${!cmp.added.length&&!cmp.removed.length?t.unchanged:`${cmp.added.length?`<div><strong>${t.added}:</strong> ${cmp.added.map(id=>product(id).name).join(', ')}</div>`:''}${cmp.removed.length?`<div><strong>${t.removed}:</strong> ${cmp.removed.map(id=>product(id).name).join(', ')}</div>`:''}`}<small>${t.comparisonNotice}</small></div>`:''}<p class="detail-caution">${t.budgetDisclaimer}</p></section><div class="method-note">${summaryAI?t.aiSummary:t.fallback}</div><div class="result-actions"><button class="text-button" data-action="restart">${t.restart}</button><button class="text-button" data-action="print">${t.print} ↗</button></div></div></details></section>`;
  }
 
  render(){
@@ -1650,7 +1786,13 @@ class UpBenefitsBuilder extends HTMLElement {
   const celebrate=!!atResult&&!this._celebrated;
   const content=atResult?this.renderResult():this.renderQuestion();
   const ribbons=celebrate?`<div class="result-ribbons" aria-hidden="true">${Array.from({length:28},(_,i)=>`<i style="--ribbon:${i};--x:${(i-13.5)*22}px;--turn:${i%2?140:-140}deg"></i>`).join('')}</div>`:'';
-  this.shadowRoot.innerHTML=`<style>${WIDGET_CSS}</style><div class="upb ${this._choosing?'choice-committed':''} ${changed?'motion-enter':''} ${celebrate?'first-result':''}" lang="${this.language}" style="--motion-x:${direction*12}px"><div class="shell">${this.renderNavigation()}${ribbons}${content}</div></div>`;
+  const root=this.shadowRoot;
+  if(!root.querySelector('.upb')){root.innerHTML=`<style>${WIDGET_CSS}${CARD_CSS}</style><div class="upb with-card">${CARD_MARKUP}<div class="shell"></div></div>`;this.setupCard();}
+  const upb=root.querySelector('.upb');
+  upb.className=`upb with-card ${this._choosing?'choice-committed':''} ${changed?'motion-enter':''} ${celebrate?'first-result':''}`;
+  upb.lang=this.language;upb.style.setProperty('--motion-x',`${direction*12}px`);
+  upb.querySelector('.shell').innerHTML=`${this.renderNavigation()}${ribbons}${content}`;
+  this.renderCard();
   this._lastMotionKey=motionKey;this._lastMotionStep=this.state.step;this._lastMeter=this.selectedCount;
   if(atResult)this._celebrated=true;
  }
