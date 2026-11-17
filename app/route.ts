@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
   const requestedUrl = new URL(request.url);
   const origin = (process.env.NEXT_PUBLIC_SITE_URL || requestedUrl.origin).replace(/\/$/, '');
-  const language = 'el';
+  const language = 'el' as 'el' | 'en';
   const canonical = origin + (language === 'en' ? '/en/' : '/');
   const html = await readFile(path.join(process.cwd(), 'legacy', 'index.html'), 'utf8');
   const live = !!process.env.N8N_LEAD_WEBHOOK_URL;
