@@ -77,14 +77,24 @@ function checkEmail(raw: unknown) {
   return { email, domain };
 }
 
-// Optional. Only obviously fictional numbers pass (Greek +30 0... or a leading-zero run).
+// Optional. The country code decides how many digits the national number has.
+// Must stay in sync with PHONE_COUNTRIES in widget/index.html.
+const PHONE_DIGITS: Record<string, [number, number]> = {
+  '+30': [10, 10],
+  '+357': [8, 8],
+  '+44': [10, 10],
+  '+49': [10, 11],
+  '+33': [9, 9],
+  '+39': [9, 10],
+};
+
 function checkPhone(raw: unknown) {
   const phone = String(raw || '').trim();
   if (!phone) return phone;
 
-  const digits = phone.replace(/\D/g, '').length;
-  const isFictional = /^\+?30[ ()-]*0[0 ()-]*$/.test(phone) || /^0[0 ()-]{7,}$/.test(phone);
-  if (!/^\+?[\d ()-]+$/.test(phone) || digits < 8 || digits > 15 || !isFictional) throw Error('dummy_phone_only');
+  const match = /^(\+\d{1,3}) (\d+)$/.exec(phone);
+  const range = match ? PHONE_DIGITS[match[1]] : undefined;
+  if (!match || !range || match[2].length < range[0] || match[2].length > range[1]) throw Error('invalid_phone');
 
   return phone;
 }
