@@ -1,10 +1,11 @@
 # Up Benefits Builder
 
-A six-question quiz that recommends an Up Hellas benefits package and captures a qualified lead. Take-home assessment (Web & Agentic AI Specialist). Dummy data only; the catalogue holds no prices and no tax amounts.
+A six-question quiz that recommends an Up Hellas benefits package and captures a qualified lead. Take-home assessment (Web & Agentic AI Specialist). Built and tested with dummy data; the catalogue holds no prices and no tax amounts.
 
 - Webflow page: https://up-benefits-builder.webflow.io/
 - App (embedded in the Webflow page): https://up-benefits-builder.vercel.app/ and `/en/`
-- Decisions, funnel, A/B test and limits: [docs/WRITEUP.md](docs/WRITEUP.md)
+- Decisions, A/B test and next steps: [docs/WRITEUP.md](docs/WRITEUP.md)
+- Events, funnel and SEO: [docs/TRACKING_SEO.md](docs/TRACKING_SEO.md)
 - Lead workflow (Make): [docs/WORKFLOW.md](docs/WORKFLOW.md)
 
 ## How it fits together
@@ -25,10 +26,11 @@ The page shows "saved" only when the workflow confirms the row was written.
 |---|---|
 | `app/route.ts`, `app/en/route.ts` | Greek and English entry points. |
 | `lib/renderPage.ts` | Reads the page and fills in the runtime config, canonical URL and robots tag. |
-| `app/api/lead/route.ts` | Validates a lead (allowed answers, dummy-only emails, size limit) and forwards it to the automation webhook. |
+| `app/api/lead/route.ts` | Validates a lead (allowed answers, email and phone format, size limit) and forwards it to the automation webhook. |
+| `app/robots.ts`, `app/sitemap.ts`, `app/assets/og-card.png/route.tsx` | robots.txt, sitemap.xml and the link-preview image. |
 | `widget/index.html` | The quiz: one web component with the rules, copy, accessibility and analytics. |
 | `scripts/check.mjs` | Offline checks: required content and the recommendation rules (`npm run check`). |
-| `docs/` | Write-up and workflow description. |
+| `docs/` | Write-up, workflow description, tracking and SEO notes. |
 
 ## Environment variables
 
@@ -72,5 +74,6 @@ Product ids: `flexone`, `upgift`, `fitpass`, `upexpense`, `cheque`. Anything els
 
 ## Data rules
 
-- Only dummy emails are accepted: `example.com/.org/.net`, `.example`, `.test`, `.invalid`, and two fixed demo addresses on free domains for testing the low-priority path.
+- The form accepts any valid email, so reviewers can test with their own. Free-mail domains are flagged for the workflow, which treats them as low priority.
+- The optional phone is a country code plus the national number, checked against the digit count that country allows.
 - No personal data is sent to the language model or to analytics.
