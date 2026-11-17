@@ -11,7 +11,7 @@ A six-question quiz that recommends an Up Hellas benefits package and captures a
 
 ```
 Webflow page (iframe)
-  -> Next.js app   GET /  and  /en/     serves legacy/index.html with runtime config
+  -> Next.js app   GET /  and  /en/     serves widget/index.html with runtime config
   -> POST /api/lead                      validates the payload, forwards it
   -> Make scenario                       checks, rules, Gemini, Google Sheet, email
   <- receipt                             ok, persisted, product ids, summary
@@ -23,10 +23,11 @@ The page shows "saved" only when the workflow confirms the row was written.
 
 | Path | Purpose |
 |---|---|
-| `app/route.ts`, `app/en/route.ts` | Serve the quiz page in Greek and English and inject the runtime config. |
+| `app/route.ts`, `app/en/route.ts` | Greek and English entry points. |
+| `lib/renderPage.ts` | Reads the page and fills in the runtime config, canonical URL and robots tag. |
 | `app/api/lead/route.ts` | Validates a lead (allowed answers, dummy-only emails, size limit) and forwards it to the automation webhook. |
-| `legacy/index.html` | The quiz: one web component with the rules, copy, accessibility and analytics. |
-| `scripts/check.mjs` | Project check script. |
+| `widget/index.html` | The quiz: one web component with the rules, copy, accessibility and analytics. |
+| `scripts/check.mjs` | Offline checks: required content and the recommendation rules (`npm run check`). |
 | `docs/` | Write-up and workflow description. |
 
 ## Environment variables
@@ -39,7 +40,7 @@ The page shows "saved" only when the workflow confirms the row was written.
 | `NEXT_PUBLIC_ALLOW_INDEXING` | no | `1` serves `index,follow`; anything else serves `noindex,follow`. |
 | `NEXT_PUBLIC_SITE_URL` | no | Canonical origin. Defaults to the request origin. |
 
-The older names `N8N_LEAD_WEBHOOK_URL` and `N8N_WEBHOOK_SECRET` are still read as a fallback.
+Copy `.env.example` to `.env.local` for local work.
 
 ## Run and deploy
 
