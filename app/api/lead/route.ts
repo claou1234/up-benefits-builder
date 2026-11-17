@@ -35,19 +35,22 @@ function verify(input: unknown) {
 }
 
 export async function POST(request: Request) {
-  if(!process.env.N8N_LEAD_WEBHOOK_URL) return NextResponse.json({ok:false,error:'workflow_not_configured'}, {status:503});
+  // LEAD_WEBHOOK_URL is the automation webhook (Make). The N8N_* names are kept as a fallback for older deployments.
+  const webhookUrl = process.env.LEAD_WEBHOOK_URL || process.env.N8N_LEAD_WEBHOOK_URL;
+  const webhookSecret = process.env.LEAD_WEBHOOK_SECRET || process.env.N8N_WEBHOOK_SECRET;
+  if(!webhookUrl) return NextResponse.json({ok:false,error:'workflow_not_configured'}, {status:503});
   let validated: ReturnType<typeof verify>;
   try{
     if(Number(request.headers.get('content-length')||0)>16000)return NextResponse.json({ok:false,error:'payload_too_large'},{status:413});
     validated=verify(await request.json());
   }catch{return NextResponse.json({ok:false,error:'invalid_or_non_dummy_data'},{status:400});}
   try {
-    const url=new URL(process.env.N8N_LEAD_WEBHOOK_URL);
+    const url=new URL(webhookUrl);
     if(url.protocol!=='https:') throw Error('webhook_requires_https');
     const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),18000);
     let upstream:Response;
     try{
-      upstream=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json',...(process.env.N8N_WEBHOOK_SECRET?{'Authorization':`Bearer ${process.env.N8N_WEBHOOK_SECRET}`}:{})},body:JSON.stringify(validated),signal:controller.signal,cache:'no-store'});
+      upstream=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json',...(webhookSecret?{'Authorization':`Bearer ${webhookSecret}`}:{})},body:JSON.stringify(validated),signal:controller.signal,cache:'no-store'});
     }finally{clearTimeout(timeout);}
     const data=await upstream.json().catch(()=>null);
     // Show saved only with an explicit verified receipt. Workflow should return recommendations and approved summary.
