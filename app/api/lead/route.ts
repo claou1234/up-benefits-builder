@@ -23,9 +23,6 @@ const FREE_EMAIL_DOMAINS = new Set([
   'outlook.gr', 'live.com', 'icloud.com', 'aol.com', 'proton.me', 'protonmail.com', 'gmx.com', 'mail.com',
 ]);
 
-// The assessment runs on dummy data only. These two addresses exist to exercise the free-email rule.
-const DUMMY_FREE_EMAILS = ['upb.assessment.demo@gmail.com', 'upb.assessment.demo@yahoo.com'];
-
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/;
 
@@ -71,9 +68,6 @@ function checkEmail(raw: unknown) {
     throw Error('invalid_email');
   }
 
-  const isReservedDomain = /(^|\.)example\.(com|org|net)$/.test(domain) || /\.(example|test|invalid)$/.test(domain);
-  if (!isReservedDomain && !DUMMY_FREE_EMAILS.includes(email)) throw Error('dummy_email_only');
-
   return { email, domain };
 }
 
@@ -82,10 +76,36 @@ function checkEmail(raw: unknown) {
 const PHONE_DIGITS: Record<string, [number, number]> = {
   '+30': [10, 10],
   '+357': [8, 8],
-  '+44': [10, 10],
-  '+49': [10, 11],
+  '+355': [9, 9],
+  '+43': [7, 13],
+  '+32': [8, 9],
+  '+359': [8, 9],
   '+33': [9, 9],
-  '+39': [9, 10],
+  '+49': [7, 12],
+  '+45': [8, 8],
+  '+41': [9, 9],
+  '+372': [7, 8],
+  '+44': [9, 10],
+  '+1': [10, 10],
+  '+353': [7, 9],
+  '+34': [9, 9],
+  '+39': [6, 11],
+  '+385': [8, 9],
+  '+352': [6, 9],
+  '+356': [8, 8],
+  '+47': [8, 8],
+  '+31': [9, 9],
+  '+36': [8, 9],
+  '+48': [9, 9],
+  '+351': [9, 9],
+  '+40': [9, 9],
+  '+381': [8, 9],
+  '+421': [9, 9],
+  '+386': [8, 8],
+  '+46': [7, 10],
+  '+90': [10, 10],
+  '+420': [9, 9],
+  '+358': [6, 11],
 };
 
 function checkPhone(raw: unknown) {
