@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   const language = 'en';
   const canonical = origin + (language === 'en' ? '/en/' : '/');
   const html = await readFile(path.join(process.cwd(), 'legacy', 'index.html'), 'utf8');
-  const live = !!process.env.N8N_LEAD_WEBHOOK_URL;
+  const live = !!(process.env.LEAD_WEBHOOK_URL || process.env.N8N_LEAD_WEBHOOK_URL);
   const configJson = JSON.stringify({mode: live ? 'live' : 'demo',apiBase:'',gtmId:process.env.NEXT_PUBLIC_GTM_ID || ''});
   let output = html
     .replace('window.UPB_CONFIG={"mode":"demo","apiBase":"","gtmId":""', `window.UPB_CONFIG=${configJson.slice(0,-1)}`)
